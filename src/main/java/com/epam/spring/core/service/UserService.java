@@ -6,12 +6,13 @@ import com.epam.spring.core.model.Ticket;
 import com.epam.spring.core.model.User;
 
 public interface UserService {
-	
-	void register(User user);
-	void remove(User user);
-	User getById(int id);
-	User getUserByEmail(String email);
-	User getUserByName(String name);
-	List<Ticket> getBookedTickets(User user);
+
+    void register(User user);
+    void remove(User user);
+    User getById(int id);
+    User getUserByEmail(String email);
+    User getUsersByName(String name);
+    List<Ticket> getBookedTickets(User user);
+
 
 }

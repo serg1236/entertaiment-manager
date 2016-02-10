@@ -54,7 +54,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<mainClass>com.epam.spring.core.App</mainClass>
+					<mainClass>com.epam.spring.core.Main</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>
