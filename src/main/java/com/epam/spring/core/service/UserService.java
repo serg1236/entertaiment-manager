@@ -11,7 +11,7 @@ public interface UserService {
     void remove(User user);
     User getById(int id);
     User getUserByEmail(String email);
-    User getUsersByName(String name);
+    List<User> getUsersByName(String name);
     List<Ticket> getBookedTickets(User user);
 
 

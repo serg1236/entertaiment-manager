@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+        xmlns:p="http://www.springframework.org/schema/p" xmlns:c="http://www.springframework.org/schema/c"
+        xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-3.2.xsd">
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:bowl-pub.properties</value>
+                <value>classpath:event-hall.properties</value>
+                <value>classpath:lounge-zone.properties</value>
+                <value>classpath:plaza.properties</value>
+            </list>
+        </property>
+        <property name="ignoreResourceNotFound" value="true" />
+        <property name="systemPropertiesMode">
+            <util:constant
+                    static-field="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer.SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+        </property>
+    </bean>
+
+    <bean id="modelRepository" class="com.epam.spring.core.repository.Repository">
+        <property name="auditoriums">
+            <map>
+                <entry key="${plaza.id}">
+                    <bean class="com.epam.spring.core.model.Auditorium">
+                        <property name="id" value="${plaza.id}"/>
+                        <property name="name" value="${plaza.name}"/>
+                        <property name="numberOfSeats" value="${plaza.numberOfSeats}"/>
+                        <property name="vipSeats" value="#{'${plaza.vipSeats}'.split(',')}"/>
+                    </bean>
+                </entry>
+                <entry key="${bowl.id}">
+                    <bean class="com.epam.spring.core.model.Auditorium">
+                        <property name="id" value="${bowl.id}"/>
+                        <property name="name" value="${bowl.name}"/>
+                        <property name="numberOfSeats" value="${bowl.numberOfSeats}"/>
+                        <property name="vipSeats" value="#{'${bowl.vipSeats}'.split(',')}"/>
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <import resource="strategies.xml" />
+
+</beans>

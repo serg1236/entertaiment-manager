@@ -3,6 +3,7 @@ package com.epam.spring.core.service;
 import com.epam.spring.core.model.Auditorium;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Sergiy_Dakhniy
@@ -10,6 +11,6 @@ import java.util.List;
 public interface AuditoriumService {
 
     List<Auditorium> getAuditoriums();
-    int getSeatsNumber(Auditorium auditorium);
-    List<Integer> getVipSeats(Auditorium auditorium);
+    int getSeatsNumber(String auditoriumName);
+    List<Integer> getVipSeats(String auditoriumName);
 }

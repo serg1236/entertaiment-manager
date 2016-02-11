@@ -1,11 +1,12 @@
 package com.epam.spring.core.model;
 
-import java.util.Set;
+import java.util.List;
 
 public class Auditorium {
+    private int id;
     private String name;
     private int numberOfSeats;
-    private Set<Integer> vipSeats;
+    private List<Integer> vipSeats;
 
     public String getName() {
         return name;
@@ -23,11 +24,19 @@ public class Auditorium {
         this.numberOfSeats = numberOfSeats;
     }
 
-    public Set<Integer> getVipSeats() {
+    public List<Integer> getVipSeats() {
         return vipSeats;
     }
 
-    public void setVipSeats(Set<Integer> vipSeats) {
+    public void setVipSeats(List<Integer> vipSeats) {
         this.vipSeats = vipSeats;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

@@ -8,15 +8,7 @@ public class User {
     private String name;
     private String email;
     private Date birthDate;
-    private Set<Ticket> purchasedTickets = new HashSet<Ticket>();
-
-    public static int getUsersCount() {
-        return usersCount;
-    }
-
-    public static void setUsersCount(int usersCount) {
-        User.usersCount = usersCount;
-    }
+    private List<Ticket> purchasedTickets = new ArrayList<Ticket>();
 
     public String getName() {
         return name;
@@ -34,11 +26,11 @@ public class User {
         this.birthDate = birthDate;
     }
 
-    public Set<Ticket> getPurchasedTickets() {
+    public List<Ticket> getPurchasedTickets() {
         return purchasedTickets;
     }
 
-    public void setPurchasedTickets(Set<Ticket> purchasedTickets) {
+    public void setPurchasedTickets(List<Ticket> purchasedTickets) {
         this.purchasedTickets = purchasedTickets;
     }
 
