@@ -23,4 +23,10 @@ public class DiscountServiceImpl implements DiscountService {
         }
         return 0;
     }
+
+	public void setStrategies(List<UserStrategy> strategies) {
+		this.strategies = strategies;
+	}
+    
+    
 }

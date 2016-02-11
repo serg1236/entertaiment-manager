@@ -82,4 +82,32 @@ public class BookingServiceImpl implements BookingService {
         Occasion occasion = findOccasion(event, date);
         return occasion!=null? occasion.getPurchasedTickets(): null;
     }
+
+	public void setAuditoriumDao(AuditoriumDao auditoriumDao) {
+		this.auditoriumDao = auditoriumDao;
+	}
+
+	public void setOccasionDao(OccasionDao occasionDao) {
+		this.occasionDao = occasionDao;
+	}
+
+	public void setUserDao(UserDao userDao) {
+		this.userDao = userDao;
+	}
+
+	public void setEventDao(EventDao eventDao) {
+		this.eventDao = eventDao;
+	}
+
+	public void setTicketDao(TicketDao ticketDao) {
+		this.ticketDao = ticketDao;
+	}
+
+	public void setDiscountService(DiscountService discountService) {
+		this.discountService = discountService;
+	}
+    
+    
+    
+    
 }

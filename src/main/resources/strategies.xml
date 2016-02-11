@@ -8,7 +8,7 @@
         http://www.springframework.org/schema/util
         http://www.springframework.org/schema/util/spring-util-3.2.xsd">
 
-    <bean id="discountService" class="com.epam.spring.core.service.DiscountService">
+    <bean id="discountService" class="com.epam.spring.core.service.impl.DiscountServiceImpl">
         <property name="strategies">
             <list>
                 <bean class="com.epam.spring.core.strategy.impl.BirthdayStrategy" />

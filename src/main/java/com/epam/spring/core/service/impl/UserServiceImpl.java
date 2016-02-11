@@ -55,4 +55,10 @@ public class UserServiceImpl implements UserService {
     public List<Ticket> getBookedTickets(User user) {
         return user.getPurchasedTickets();
     }
+
+	public void setUserDao(UserDao userDao) {
+		this.userDao = userDao;
+	}
+    
+    
 }

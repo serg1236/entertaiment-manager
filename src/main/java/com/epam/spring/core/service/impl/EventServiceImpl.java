@@ -53,4 +53,14 @@ public class EventServiceImpl implements EventService {
         Occasion occasion = new Occasion(date, auditorium, event);
         occasionDao.create(occasion);
     }
+
+	public void setEventDao(EventDao eventDao) {
+		this.eventDao = eventDao;
+	}
+
+	public void setOccasionDao(OccasionDao occasionDao) {
+		this.occasionDao = occasionDao;
+	}
+    
+    
 }

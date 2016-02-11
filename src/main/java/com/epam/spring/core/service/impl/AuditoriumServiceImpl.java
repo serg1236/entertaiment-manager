@@ -37,4 +37,10 @@ public class AuditoriumServiceImpl implements AuditoriumService {
         }
         return null;
     }
+
+	public void setDao(AuditoriumDao dao) {
+		this.dao = dao;
+	}
+    
+    
 }

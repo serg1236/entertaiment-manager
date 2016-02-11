@@ -43,10 +43,40 @@
                         <property name="vipSeats" value="#{'${bowl.vipSeats}'.split(',')}"/>
                     </bean>
                 </entry>
+                <entry key="${lounge.id}">
+                    <bean class="com.epam.spring.core.model.Auditorium">
+                        <property name="id" value="${lounge.id}"/>
+                        <property name="name" value="${lounge.name}"/>
+                        <property name="numberOfSeats" value="${lounge.numberOfSeats}"/>
+                        <property name="vipSeats" value="#{'${lounge.vipSeats}'.split(',')}"/>
+                    </bean>
+                </entry>
+                <entry key="${hall.id}">
+                    <bean class="com.epam.spring.core.model.Auditorium">
+                        <property name="id" value="${hall.id}"/>
+                        <property name="name" value="${hall.name}"/>
+                        <property name="numberOfSeats" value="${hall.numberOfSeats}"/>
+                        <property name="vipSeats" value="#{'${hall.vipSeats}'.split(',')}"/>
+                    </bean>
+                </entry>
             </map>
         </property>
     </bean>
+    
+    <bean id="event" class="com.epam.spring.core.model.Event" scope="prototype" />
+    
+    <!-- Services -->
+    
+    <bean id="auditoriumService" class="com.epam.spring.core.service.impl.AuditoriumServiceImpl" autowire="byType"/>
+    <bean id="bookingService" class="com.epam.spring.core.service.impl.BookingServiceImpl" autowire="byType"/>
+    <bean id="eventService" class="com.epam.spring.core.service.impl.EventServiceImpl" autowire="byType"/>
+    <bean id="UserService" class="com.epam.spring.core.service.impl.UserServiceImpl" autowire="byType"/>
+    
+    
+    <!-- end services -->
+    
 
     <import resource="strategies.xml" />
+    <import resource="dao.xml" />
 
 </beans>

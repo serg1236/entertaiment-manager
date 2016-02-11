@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by Sergiy_Dakhniy
  */
-public class HashMapAuditioriumDao implements AuditoriumDao{
+public class HashMapAuditoriumDao implements AuditoriumDao{
 
     private Repository repository;
 
