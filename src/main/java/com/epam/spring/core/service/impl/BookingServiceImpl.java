@@ -29,7 +29,7 @@ public class BookingServiceImpl implements BookingService {
             if(occasion.getAuditorium().getVipSeats().contains(seatNumber)) {
                 ticketPrice *= 2;
             }
-            ticketPrice = event.getBasePrice() * (1 - discount);
+            ticketPrice *= (1 - discount);
         }
         return ticketPrice;
     }
@@ -56,6 +56,7 @@ public class BookingServiceImpl implements BookingService {
             if(occasionEvent.getId() == event.getId()) {
                 if(occasionDate.compareTo(date) == 0) {
                     foundOccasion = occasion;
+                    break;
                 }
             }
         }
@@ -66,7 +67,13 @@ public class BookingServiceImpl implements BookingService {
         return userDao.getById(user.getId()) != null;
     }
 
-    public void bookTicket(User user, Ticket ticket) {
+    public void bookTicket(User user, Event event, Date date, int seat) {
+        Occasion occasion = findOccasion(event, date);
+        if(occasion == null) {
+            throw new RuntimeException("No event for this date found");
+        }
+        Ticket ticket = new Ticket(occasion, seat);
+
         if(!checkForAvailableSeat(ticket.getOccasion(), ticket.getSeat())){
             throw new RuntimeException("Seat is occupied already");
         }

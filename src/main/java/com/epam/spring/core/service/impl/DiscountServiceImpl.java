@@ -21,7 +21,7 @@ public class DiscountServiceImpl implements DiscountService {
         for(UserStrategy strategy: strategies) {
             discount += strategy.getDiscount(user, event, date);
         }
-        return 0;
+        return discount;
     }
 
 	public void setStrategies(List<UserStrategy> strategies) {

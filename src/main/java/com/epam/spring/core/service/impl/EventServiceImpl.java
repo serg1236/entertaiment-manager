@@ -30,8 +30,10 @@ public class EventServiceImpl implements EventService {
         List<Event> events = getAll();
         Event foundEvent = null;
         for(Event event: events) {
-            foundEvent = event;
-            break;
+            if(event.getName().equals(name)) {
+                foundEvent = event;
+                break;
+            }
         }
         return foundEvent;
     }

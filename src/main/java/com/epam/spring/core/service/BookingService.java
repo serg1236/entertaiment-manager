@@ -12,6 +12,6 @@ import java.util.List;
  */
 public interface BookingService {
     double getTicketPrice(Event event, Date date, int seat, User user);
-    void bookTicket(User user, Ticket ticket);
+    void bookTicket(User user, Event event, Date date, int seat);
     List<Ticket> getTicketsForEvent(Event event, Date date);
 }
