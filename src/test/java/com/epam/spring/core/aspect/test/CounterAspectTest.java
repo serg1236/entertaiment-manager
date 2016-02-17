@@ -1,12 +1,15 @@
-package com.epam.spring.core.service.test;
+package com.epam.spring.core.aspect.test;
 
-import com.epam.spring.core.model.*;
+import com.epam.spring.core.aspect.CounterAspect;
+import com.epam.spring.core.model.Auditorium;
+import com.epam.spring.core.model.Event;
+import com.epam.spring.core.model.EventRating;
+import com.epam.spring.core.model.User;
 import com.epam.spring.core.service.AuditoriumService;
 import com.epam.spring.core.service.BookingService;
 import com.epam.spring.core.service.EventService;
 import com.epam.spring.core.service.UserService;
 import org.junit.Before;
-import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.BeansException;
@@ -25,9 +28,10 @@ import static org.junit.Assert.*;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:spring.xml")
-public class BookingServiceTest implements ApplicationContextAware{
+public class CounterAspectTest implements ApplicationContextAware{
 
     private ApplicationContext context;
+
     @Autowired
     private AuditoriumService auditoriumService;
     @Autowired
@@ -36,6 +40,8 @@ public class BookingServiceTest implements ApplicationContextAware{
     private UserService userService;
     @Autowired
     private BookingService bookingService;
+    @Autowired
+    private CounterAspect aspect;
 
     private Calendar today;
     private Calendar tomorrow;
@@ -46,7 +52,6 @@ public class BookingServiceTest implements ApplicationContextAware{
         this.context = applicationContext;
     }
 
-
     @Before
     public void init() {
         Event event1 = context.getBean(Event.class);
@@ -56,11 +61,6 @@ public class BookingServiceTest implements ApplicationContextAware{
         eventService.create(event1);
         Auditorium auditorium1 = auditoriumService.getAuditoriums().get(0);
 
-        Event event2 = context.getBean(Event.class);
-        event2.setName("O.Torvald concert");
-        event2.setRating(EventRating.MEDIUM);
-        event2.setBasePrice(50);
-        eventService.create(event2);
         Auditorium auditorium2 = auditoriumService.getAuditoriums().get(1);
 
         Event event3 = context.getBean(Event.class);
@@ -85,71 +85,46 @@ public class BookingServiceTest implements ApplicationContextAware{
         birthDay1.set(Calendar.MONTH, Calendar.JANUARY);
         birthDay1.set(Calendar.DAY_OF_MONTH, 1);
 
-        birthDay2 = Calendar.getInstance();
-        birthDay2.set(Calendar.YEAR, 1988);
-        birthDay2.set(Calendar.MONTH, Calendar.MAY);
-        birthDay2.set(Calendar.DAY_OF_MONTH, 20);
 
         eventService.assignAuditorium(event1, auditorium1, today.getTime());
-        eventService.assignAuditorium(event2, auditorium2, today.getTime());
         eventService.assignAuditorium(event3, auditorium2, tomorrow.getTime());
 
         userService.register(new User("Jon Snow", "wall@westeros.com", birthDay1.getTime()));
-        userService.register(new User("Chuck Norris", "1@epam.com", birthDay2.getTime()));
 
     }
 
     @Test
-    public void ticketPriceCheck() {
+    public void priceStatisticCheck() {
         Event okeanConcert = eventService.getByName("Okean Elzy concert");
+        Event beerPong = eventService.getByName("Beer pong champ");
         User jon = userService.getUserByEmail("wall@westeros.com");
-        double price = bookingService.getTicketPrice(okeanConcert, today.getTime(), 5, jon);
-        assertEquals(228.0, price, 0.001);
-    }
-
-    @Test (expected = RuntimeException.class)
-    public void occupiedTicketPriceCheck() {
-        Event okeanConcert = eventService.getByName("Okean Elzy concert");
-        User jon = userService.getUserByEmail("wall@westeros.com");
-        bookingService.bookTicket(jon, okeanConcert, today.getTime(), 5);
-        double priceForBooked = bookingService.getTicketPrice(okeanConcert, today.getTime(), 5, jon);
+        bookingService.getTicketPrice(okeanConcert, today.getTime(), 5, jon);
+        bookingService.getTicketPrice(okeanConcert, today.getTime(), 5, jon);
+        bookingService.getTicketPrice(okeanConcert, today.getTime(), 5, jon);
+        bookingService.getTicketPrice(beerPong, tomorrow.getTime(), 5, jon);
+        assertEquals(3, aspect.getStatisticByEvent(okeanConcert).getPriceRequired());
+        assertEquals(1, aspect.getStatisticByEvent(beerPong).getPriceRequired());
     }
 
     @Test
-    public void userTicketCheck() {
+    public void bookTicketCheck() {
         Event okeanConcert = eventService.getByName("Okean Elzy concert");
         Event beerPong = eventService.getByName("Beer pong champ");
         User jon = userService.getUserByEmail("wall@westeros.com");
         bookingService.bookTicket(jon, okeanConcert, today.getTime(), 5);
-        bookingService.bookTicket(jon, beerPong, tomorrow.getTime(), 2);
-        assertEquals(2, userService.getBookedTickets(jon).size());
-    }
-
-    @Test(expected = RuntimeException.class)
-    public void noEventTodayCheck() {
-        Event beerPong = eventService.getByName("Beer pong champ");
-        User jon = userService.getUserByEmail("wall@westeros.com");
-        bookingService.bookTicket(jon, beerPong, today.getTime(), 5);
-    }
-
-    @Test(expected = RuntimeException.class)
-    public void occupiedSeatCheck() {
-        User jon = userService.getUserByEmail("wall@westeros.com");
-        Event okeanConcert = eventService.getByName("Okean Elzy concert");
-        bookingService.bookTicket(jon, okeanConcert, today.getTime(), 5);
-        bookingService.bookTicket(jon, okeanConcert, today.getTime(), 5);
+        bookingService.bookTicket(jon, okeanConcert, today.getTime(), 7);
+        bookingService.bookTicket(jon, beerPong, tomorrow.getTime(), 5);
+        assertEquals(2, aspect.getStatisticByEvent(okeanConcert).getTicketsBooked());
+        assertEquals(1, aspect.getStatisticByEvent(beerPong).getTicketsBooked());
+        assertEquals(0, aspect.getStatisticByEvent(beerPong).getPriceRequired());
     }
 
     @Test
-    public void checkPurchasedTickets() {
-        User jon = userService.getUserByEmail("wall@westeros.com");
+    public void nameAccessCheck() {
         Event okeanConcert = eventService.getByName("Okean Elzy concert");
+        Event okeanConcert2 = eventService.getByName("Okean Elzy concert");
         Event beerPong = eventService.getByName("Beer pong champ");
-        bookingService.bookTicket(jon, okeanConcert, today.getTime(), 5);
-        bookingService.bookTicket(jon, okeanConcert, today.getTime(), 4);
-        bookingService.bookTicket(jon, okeanConcert, today.getTime(), 3);
-        assertEquals(3, bookingService.getTicketsForEvent(okeanConcert, today.getTime()).size());
-        assertNull(bookingService.getTicketsForEvent(okeanConcert, tomorrow.getTime()));
-        assertEquals(0, bookingService.getTicketsForEvent(beerPong, tomorrow.getTime()).size());
+        assertEquals(2, aspect.getStatisticByEvent(okeanConcert).getAccessedByName());
+        assertEquals(1, aspect.getStatisticByEvent(beerPong).getAccessedByName());
     }
 }

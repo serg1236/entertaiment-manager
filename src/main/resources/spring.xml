@@ -78,5 +78,6 @@
 
     <import resource="strategies.xml" />
     <import resource="dao.xml" />
+    <import resource="aspects.xml" />
 
 </beans>
