@@ -3,8 +3,7 @@ package com.epam.spring.core.model;
 import java.util.*;
 
 public class User {
-    private static int usersCount = 0;
-    private int id = usersCount++;
+    private int id;
     private String name;
     private String email;
     private Date birthDate;
@@ -36,6 +35,10 @@ public class User {
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getEmail() {

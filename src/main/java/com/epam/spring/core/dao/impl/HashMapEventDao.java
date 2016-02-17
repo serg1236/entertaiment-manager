@@ -12,16 +12,15 @@ import java.util.List;
  */
 public class HashMapEventDao implements EventDao {
     private Repository repository;
+    private static int eventCount = 0;
 
     public List<Event> read() {
         return new ArrayList<Event>(repository.getEvents().values());
     }
 
     public void create(Event entry) {
-        Event Event = repository.getEvents().get(entry.getId());
-        if(Event == null) {
-            repository.getEvents().put(entry.getId(), entry);
-        }
+        entry.setId(eventCount++);
+        repository.getEvents().put(entry.getId(), entry);
     }
 
     public void delete(Event entry) {

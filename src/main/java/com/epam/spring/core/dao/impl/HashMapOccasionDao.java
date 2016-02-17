@@ -12,17 +12,16 @@ import java.util.List;
  */
 public class HashMapOccasionDao implements OccasionDao {
 
-    Repository repository;
+    private Repository repository;
+    private static int occasionCount = 0;
 
     public List<Occasion> read() {
         return new ArrayList<Occasion>(repository.getOccasions().values());
     }
 
     public void create(Occasion entry) {
-        Occasion occasion = repository.getOccasions().get(entry.getId());
-        if(occasion == null) {
-            repository.getOccasions().put(entry.getId(), entry);
-        }
+        entry.setId(occasionCount++);
+        repository.getOccasions().put(entry.getId(), entry);
     }
 
     public void delete(Occasion entry) {

@@ -21,7 +21,7 @@ public class BookingServiceImpl implements BookingService {
     private DiscountService discountService;
 
     public double getTicketPrice(Event event, Date date, int seatNumber, User user) {
-        double ticketPrice = -1;
+        double ticketPrice = 0;
         Occasion occasion = findOccasion(event, date);
         if(checkForAvailableSeat(occasion, seatNumber)) {
             double discount = discountService.getDiscount(user, event, date);
@@ -30,6 +30,8 @@ public class BookingServiceImpl implements BookingService {
                 ticketPrice *= 2;
             }
             ticketPrice *= (1 - discount);
+        } else {
+            throw new RuntimeException("Occasion is not found or seat is occupied");
         }
         return ticketPrice;
     }

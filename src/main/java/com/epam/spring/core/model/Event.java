@@ -1,8 +1,7 @@
 package com.epam.spring.core.model;
 
 public class Event {
-    private static int eventCount = 0;
-    private int id = eventCount++;
+    private int id;
     private String name;
     private double basePrice;
     private EventRating rating;
@@ -33,5 +32,9 @@ public class Event {
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

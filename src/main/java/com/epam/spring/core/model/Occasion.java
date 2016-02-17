@@ -6,8 +6,7 @@ import java.util.*;
  * Created by Sergiy_Dakhniy
  */
 public class Occasion {
-    private static int occasionCount = 0;
-    private int id = occasionCount++;
+    private int id;
     private Event event;
     private Auditorium auditorium;
     private Date date;
@@ -41,6 +40,10 @@ public class Occasion {
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Occasion(Date date, Auditorium auditorium, Event event) {

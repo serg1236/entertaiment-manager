@@ -1,8 +1,7 @@
 package com.epam.spring.core.model;
 
 public class Ticket {
-    private static int ticketCount = 0;
-    private int id = ticketCount++;
+    private int id;
     private Occasion occasion;
     private int seat;
 
@@ -29,5 +28,9 @@ public class Ticket {
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

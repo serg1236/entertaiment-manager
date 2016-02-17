@@ -49,7 +49,7 @@ public class BookingServiceTest implements ApplicationContextAware{
 
 
     @Before
-    private void init() {
+    public void init() {
         Event event1 = context.getBean(Event.class);
         event1.setName("Okean Elzy concert");
         event1.setRating(EventRating.HIGH);
@@ -105,10 +105,15 @@ public class BookingServiceTest implements ApplicationContextAware{
         Event okeanConcert = eventService.getByName("Okean Elzy concert");
         User jon = userService.getUserByEmail("wall@westeros.com");
         double price = bookingService.getTicketPrice(okeanConcert, today.getTime(), 5, jon);
+        assertEquals(228.0, price, 0.001);
+    }
+
+    @Test (expected = RuntimeException.class)
+    public void occupiedTicketPriceCheck() {
+        Event okeanConcert = eventService.getByName("Okean Elzy concert");
+        User jon = userService.getUserByEmail("wall@westeros.com");
         bookingService.bookTicket(jon, okeanConcert, today.getTime(), 5);
         double priceForBooked = bookingService.getTicketPrice(okeanConcert, today.getTime(), 5, jon);
-        assertEquals(228.0, price, 0.001);
-        assertEquals(-1.0, priceForBooked, 0.001);
     }
 
     @Test

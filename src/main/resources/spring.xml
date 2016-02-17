@@ -70,7 +70,7 @@
     <bean id="auditoriumService" class="com.epam.spring.core.service.impl.AuditoriumServiceImpl" autowire="byType"/>
     <bean id="bookingService" class="com.epam.spring.core.service.impl.BookingServiceImpl" autowire="byType"/>
     <bean id="eventService" class="com.epam.spring.core.service.impl.EventServiceImpl" autowire="byType"/>
-    <bean id="UserService" class="com.epam.spring.core.service.impl.UserServiceImpl" autowire="byType"/>
+    <bean id="userService" class="com.epam.spring.core.service.impl.UserServiceImpl" autowire="byType"/>
     
     
     <!-- end services -->

@@ -93,6 +93,6 @@ public class DiscountServiceTest implements ApplicationContextAware{
         }
         user.setPurchasedTickets(tickets);
         double discount = discountService.getDiscount(user, context.getBean(Event.class), today.getTime());
-        assertEquals(0.55, discount, 0.001);
+        assertEquals(0.5, discount, 0.001);
     }
 }

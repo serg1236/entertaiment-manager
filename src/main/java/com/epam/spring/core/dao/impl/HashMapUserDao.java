@@ -13,16 +13,15 @@ import java.util.List;
 public class HashMapUserDao implements UserDao {
 
     private Repository repository;
+    private static int userCount = 0;
 
     public List<User> read() {
         return new ArrayList<User>(repository.getUsers().values());
     }
 
     public void create(User entry) {
-        User user = repository.getUsers().get(entry.getId());
-        if(user == null) {
-            repository.getUsers().put(entry.getId(), entry);
-        }
+        entry.setId(userCount++);
+        repository.getUsers().put(entry.getId(), entry);
     }
 
     public void delete(User entry) {

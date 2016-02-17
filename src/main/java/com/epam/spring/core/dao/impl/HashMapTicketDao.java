@@ -12,17 +12,16 @@ import java.util.List;
  */
 public class HashMapTicketDao implements TicketDao {
 
-    Repository repository;
+    private Repository repository;
+    private static int ticketCount = 0;
 
     public List<Ticket> read() {
         return new ArrayList<Ticket>(repository.getTickets().values());
     }
 
     public void create(Ticket entry) {
-        Ticket ticket = repository.getTickets().get(entry.getId());
-        if(ticket == null) {
-            repository.getTickets().put(entry.getId(), entry);
-        }
+        entry.setId(ticketCount++);
+        repository.getTickets().put(entry.getId(), entry);
     }
 
     public void delete(Ticket entry) {

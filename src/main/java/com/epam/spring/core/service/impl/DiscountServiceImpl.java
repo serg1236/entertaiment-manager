@@ -17,11 +17,14 @@ public class DiscountServiceImpl implements DiscountService {
     private List<UserStrategy> strategies;
 
     public double getDiscount(User user, Event event, Date date) {
-        double discount =0;
+        double maxDiscount =0;
         for(UserStrategy strategy: strategies) {
-            discount += strategy.getDiscount(user, event, date);
+            double discount = strategy.getDiscount(user, event, date);
+            if(discount > maxDiscount) {
+                maxDiscount = discount;
+            }
         }
-        return discount;
+        return maxDiscount;
     }
 
 	public void setStrategies(List<UserStrategy> strategies) {
