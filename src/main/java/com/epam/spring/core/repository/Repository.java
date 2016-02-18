@@ -15,6 +15,7 @@ public class Repository {
     private  Map<Integer, Event> events = new HashMap<Integer, Event>();
     private  Map<Integer, Occasion> occasions = new HashMap<Integer, Occasion>();
     private  Map<Integer, EventStatistic> eventStatistics = new HashMap<Integer, EventStatistic>();
+    private  Map<Integer, DiscountStatistic> discountStatistics = new HashMap<Integer, DiscountStatistic>();
     private  Map<Integer, Auditorium> auditoriums;
 
     public void setAuditoriums(Map<Integer, Auditorium> auditoriums) {
@@ -43,5 +44,9 @@ public class Repository {
 
     public Map<Integer, EventStatistic> getEventStatistics() {
         return eventStatistics;
+    }
+
+    public Map<Integer, DiscountStatistic> getDiscountStatistics() {
+        return discountStatistics;
     }
 }

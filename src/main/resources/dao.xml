@@ -14,4 +14,5 @@
 	<bean id="ticketDao" class="com.epam.spring.core.dao.impl.HashMapTicketDao" autowire="byType"></bean>
 	<bean id="userDao" class="com.epam.spring.core.dao.impl.HashMapUserDao" autowire="byType"></bean>
 	<bean id="eventStatisticDao" class="com.epam.spring.core.dao.impl.HashMapEventStatisticDao" autowire="byType"></bean>
+	<bean id="discountStatisticDao" class="com.epam.spring.core.dao.impl.HashMapDiscountStatisticDao" autowire="byType"></bean>
 </beans>

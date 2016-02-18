@@ -5,10 +5,7 @@ import com.epam.spring.core.model.Auditorium;
 import com.epam.spring.core.model.Event;
 import com.epam.spring.core.model.EventRating;
 import com.epam.spring.core.model.User;
-import com.epam.spring.core.service.AuditoriumService;
-import com.epam.spring.core.service.BookingService;
-import com.epam.spring.core.service.EventService;
-import com.epam.spring.core.service.UserService;
+import com.epam.spring.core.service.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -41,7 +38,7 @@ public class CounterAspectTest implements ApplicationContextAware{
     @Autowired
     private BookingService bookingService;
     @Autowired
-    private CounterAspect aspect;
+    private EventStatisticService eventStatisticService;
 
     private Calendar today;
     private Calendar tomorrow;
@@ -102,8 +99,8 @@ public class CounterAspectTest implements ApplicationContextAware{
         bookingService.getTicketPrice(okeanConcert, today.getTime(), 5, jon);
         bookingService.getTicketPrice(okeanConcert, today.getTime(), 5, jon);
         bookingService.getTicketPrice(beerPong, tomorrow.getTime(), 5, jon);
-        assertEquals(3, aspect.getStatisticByEvent(okeanConcert).getPriceRequired());
-        assertEquals(1, aspect.getStatisticByEvent(beerPong).getPriceRequired());
+        assertEquals(3, eventStatisticService.getStatistic(okeanConcert).getPriceRequired());
+        assertEquals(1, eventStatisticService.getStatistic(beerPong).getPriceRequired());
     }
 
     @Test
@@ -114,9 +111,9 @@ public class CounterAspectTest implements ApplicationContextAware{
         bookingService.bookTicket(jon, okeanConcert, today.getTime(), 5);
         bookingService.bookTicket(jon, okeanConcert, today.getTime(), 7);
         bookingService.bookTicket(jon, beerPong, tomorrow.getTime(), 5);
-        assertEquals(2, aspect.getStatisticByEvent(okeanConcert).getTicketsBooked());
-        assertEquals(1, aspect.getStatisticByEvent(beerPong).getTicketsBooked());
-        assertEquals(0, aspect.getStatisticByEvent(beerPong).getPriceRequired());
+        assertEquals(2, eventStatisticService.getStatistic(okeanConcert).getTicketsBooked());
+        assertEquals(1, eventStatisticService.getStatistic(beerPong).getTicketsBooked());
+        assertEquals(0, eventStatisticService.getStatistic(beerPong).getPriceRequired());
     }
 
     @Test
@@ -124,7 +121,7 @@ public class CounterAspectTest implements ApplicationContextAware{
         Event okeanConcert = eventService.getByName("Okean Elzy concert");
         Event okeanConcert2 = eventService.getByName("Okean Elzy concert");
         Event beerPong = eventService.getByName("Beer pong champ");
-        assertEquals(2, aspect.getStatisticByEvent(okeanConcert).getAccessedByName());
-        assertEquals(1, aspect.getStatisticByEvent(beerPong).getAccessedByName());
+        assertEquals(2, eventStatisticService.getStatistic(okeanConcert).getAccessedByName());
+        assertEquals(1, eventStatisticService.getStatistic(beerPong).getAccessedByName());
     }
 }

@@ -15,6 +15,7 @@
                 <value>classpath:event-hall.properties</value>
                 <value>classpath:lounge-zone.properties</value>
                 <value>classpath:plaza.properties</value>
+                <value>classpath:luck.properties</value>
             </list>
         </property>
         <property name="ignoreResourceNotFound" value="true" />
@@ -71,6 +72,8 @@
     <bean id="bookingService" class="com.epam.spring.core.service.impl.BookingServiceImpl" autowire="byType"/>
     <bean id="eventService" class="com.epam.spring.core.service.impl.EventServiceImpl" autowire="byType"/>
     <bean id="userService" class="com.epam.spring.core.service.impl.UserServiceImpl" autowire="byType"/>
+    <bean id="eventStatisticService" class="com.epam.spring.core.service.impl.EventStatisticServiceImpl" autowire="byType"/>
+    <bean id="discountStatisticService" class="com.epam.spring.core.service.impl.DiscountStatisticServiceImpl" autowire="byType"/>
     
     
     <!-- end services -->

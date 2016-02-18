@@ -14,8 +14,14 @@
 
     <aop:aspectj-autoproxy />
 
+    <bean name="randomGenerator" class="com.epam.spring.core.random.impl.RandomLuckGenerator"/>
+    <bean name="trueGenerator" class="com.epam.spring.core.random.impl.TrueLuckGenerator"/>
+    <bean name="falseGenerator" class="com.epam.spring.core.random.impl.FalseLuckGenerator"/>
+
     <bean id="counterAspect" class="com.epam.spring.core.aspect.CounterAspect" autowire="byType"/>
     <bean id="discountAspect" class="com.epam.spring.core.aspect.DiscountAspect" autowire="byType"/>
-    <bean id="luckyWinnerAspect" class="com.epam.spring.core.aspect.LuckyWinnerAspect" autowire="byType"/>
+    <bean id="luckyWinnerAspect" class="com.epam.spring.core.aspect.LuckyWinnerAspect">
+        <property name="luckGenerator" ref="${luck.generator}"/>
+    </bean>
 
 </beans>
