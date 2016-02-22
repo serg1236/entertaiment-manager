@@ -80,7 +80,7 @@
     
 
     <import resource="strategies.xml" />
-    <import resource="dao.xml" />
+    <import resource="db-dao.xml" />
     <import resource="aspects.xml" />
 
 </beans>
