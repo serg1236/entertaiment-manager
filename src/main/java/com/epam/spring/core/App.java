@@ -10,6 +10,8 @@ import com.epam.spring.core.service.impl.BookingServiceImpl;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.util.List;
+
 /**
  * Created by Sergiy_Dakhniy
  */
@@ -17,10 +19,8 @@ public class App {
 
     public static void main(String args[]) {
         ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
-        Repository repository = context.getBean(Repository.class);
-        Auditorium auditorium = repository.getAuditoriums().get(1);
         AuditoriumDao dao = (AuditoriumDao) context.getBean("auditoriumDao");
-        dao.create(auditorium);
+        List<Auditorium> auditoriums = dao.read();
         context.close();
     }
 }

@@ -11,13 +11,40 @@
         http://www.springframework.org/schema/jdbc
         http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd">
 
-    <bean id="auditoriumDao" class="com.epam.spring.core.dao.db.impl.DbAuditoriumDao" autowire="byType"></bean>
-    <bean id="eventDao" class="com.epam.spring.core.dao.impl.HashMapEventDao" autowire="byType"></bean>
-    <bean id="occasionDao" class="com.epam.spring.core.dao.impl.HashMapOccasionDao" autowire="byType"></bean>
-    <bean id="ticketDao" class="com.epam.spring.core.dao.impl.HashMapTicketDao" autowire="byType"></bean>
-    <bean id="userDao" class="com.epam.spring.core.dao.impl.HashMapUserDao" autowire="byType"></bean>
-    <bean id="eventStatisticDao" class="com.epam.spring.core.dao.impl.HashMapEventStatisticDao" autowire="byType"></bean>
-    <bean id="discountStatisticDao" class="com.epam.spring.core.dao.impl.HashMapDiscountStatisticDao" autowire="byType"></bean>
+    <bean id="auditoriumDao" class="com.epam.spring.core.dao.db.impl.DbAuditoriumDao" init-method="initAuditoriums" depends-on="dataSource">
+        <property name="initialAuditoriums">
+            <list>
+                <bean class="com.epam.spring.core.model.Auditorium">
+                    <property name="name" value="${plaza.name}"/>
+                    <property name="numberOfSeats" value="${plaza.numberOfSeats}"/>
+                    <property name="vipSeats" value="#{'${plaza.vipSeats}'.split(',')}"/>
+                </bean>
+                <bean class="com.epam.spring.core.model.Auditorium">
+                    <property name="name" value="${bowl.name}"/>
+                    <property name="numberOfSeats" value="${bowl.numberOfSeats}"/>
+                    <property name="vipSeats" value="#{'${bowl.vipSeats}'.split(',')}"/>
+                </bean>
+                <bean class="com.epam.spring.core.model.Auditorium">
+                    <property name="name" value="${lounge.name}"/>
+                    <property name="numberOfSeats" value="${lounge.numberOfSeats}"/>
+                    <property name="vipSeats" value="#{'${lounge.vipSeats}'.split(',')}"/>
+                </bean>
+                <bean class="com.epam.spring.core.model.Auditorium">
+                    <property name="name" value="${hall.name}"/>
+                    <property name="numberOfSeats" value="${hall.numberOfSeats}"/>
+                    <property name="vipSeats" value="#{'${hall.vipSeats}'.split(',')}"/>
+                </bean>
+            </list>
+        </property>
+        <property name="jdbcTemplate" ref="jdbcTemplate"/>
+    </bean>
+
+    <bean id="eventDao" class="com.epam.spring.core.dao.db.impl.DbEventDao" autowire="byType" init-method="initRatings"/>
+    <bean id="occasionDao" class="com.epam.spring.core.dao.impl.HashMapOccasionDao" autowire="byType"/>
+    <bean id="ticketDao" class="com.epam.spring.core.dao.impl.HashMapTicketDao" autowire="byType"/>
+    <bean id="userDao" class="com.epam.spring.core.dao.impl.HashMapUserDao" autowire="byType"/>
+    <bean id="eventStatisticDao" class="com.epam.spring.core.dao.impl.HashMapEventStatisticDao" autowire="byType"/>
+    <bean id="discountStatisticDao" class="com.epam.spring.core.dao.impl.HashMapDiscountStatisticDao" autowire="byType"/>
 
     <!-- jdbc:hsqldb:mem:dataSource -->
     <jdbc:embedded-database id="dataSource" type="HSQL">
