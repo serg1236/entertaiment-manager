@@ -1,5 +1,6 @@
 package com.epam.spring.core.service.test;
 
+import com.epam.spring.core.dao.EventDao;
 import com.epam.spring.core.model.*;
 import com.epam.spring.core.service.AuditoriumService;
 import com.epam.spring.core.service.BookingService;
@@ -16,6 +17,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.sql.Timestamp;
 import java.util.Calendar;
 
 import static org.junit.Assert.*;
@@ -36,6 +38,8 @@ public class BookingServiceTest implements ApplicationContextAware{
     private UserService userService;
     @Autowired
     private BookingService bookingService;
+    @Autowired
+    private EventDao eventDao;
 
     private Calendar today;
     private Calendar tomorrow;
@@ -90,9 +94,9 @@ public class BookingServiceTest implements ApplicationContextAware{
         birthDay2.set(Calendar.MONTH, Calendar.MAY);
         birthDay2.set(Calendar.DAY_OF_MONTH, 20);
 
-        eventService.assignAuditorium(event1, auditorium1, today.getTime());
-        eventService.assignAuditorium(event2, auditorium2, today.getTime());
-        eventService.assignAuditorium(event3, auditorium2, tomorrow.getTime());
+        eventService.assignAuditorium(eventService.getByName(event1.getName()), auditorium1, today.getTime());
+        eventService.assignAuditorium(eventService.getByName(event2.getName()), auditorium2, today.getTime());
+        eventService.assignAuditorium(eventService.getByName(event3.getName()), auditorium2, tomorrow.getTime());
 
         userService.register(new User("Jon Snow", "wall@westeros.com", birthDay1.getTime()));
         userService.register(new User("Chuck Norris", "1@epam.com", birthDay2.getTime()));

@@ -25,6 +25,7 @@ public class DbEventDao implements EventDao {
     private static final String NAME = "NAME";
     private static final String BASE_PRICE = "BASE_PRICE";
     private static final String RATING_ID = "RATING_ID";
+    private static final String RATING_NAME = "RATING_NAME";
 
     public List<Event> read() {
         return jdbcTemplate.query("SELECT * FROM EVENT", getEventRowMapper());
@@ -37,7 +38,7 @@ public class DbEventDao implements EventDao {
     }
 
     public void delete(Event entry) {
-        throw new RuntimeException("Event removal is not supported");
+
     }
 
     public void update(Event entry) {

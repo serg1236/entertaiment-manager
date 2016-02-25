@@ -1,10 +1,16 @@
 package com.epam.spring.core.dao.db.impl;
 
 import com.epam.spring.core.dao.UserDao;
+import com.epam.spring.core.model.Ticket;
 import com.epam.spring.core.model.User;
 import com.epam.spring.core.repository.Repository;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -12,31 +18,71 @@ import java.util.List;
  */
 public class DbUserDao implements UserDao {
 
-    private Repository repository;
-    private static int userCount = 0;
+    private JdbcTemplate jdbcTemplate;
+    private RowMapper<Ticket> ticketRowMapper;
+    private static final String NAME = "NAME";
+    private static final String EMAIL = "EMAIL";
+    private static final String BIRTH_DATE = "BIRTH_DATE";
+    private static final String ID = "ID";
 
     public List<User> read() {
-        return new ArrayList<User>(repository.getUsers().values());
+        return jdbcTemplate.query("SELECT * FROM EM_USER", getUserRowMapper());
     }
 
     public void create(User entry) {
-        entry.setId(userCount++);
-        repository.getUsers().put(entry.getId(), entry);
+        jdbcTemplate.update("INSERT INTO EM_USER(NAME, EMAIL, BIRTH_DATE) VALUES(?,?,?)",
+                new Object[]{entry.getName(), entry.getEmail(), entry.getBirthDate()});
     }
 
     public void delete(User entry) {
-        repository.getUsers().remove(entry.getId());
+        jdbcTemplate.update("DELETE FROM EM_USER WHERE ID=?", entry.getId());
     }
 
     public void update(User entry) {
-        repository.getUsers().put(entry.getId(), entry);
-    }
-
-    public void setRepository(Repository repository) {
-        this.repository = repository;
+        jdbcTemplate.update("UPDATE EM_USER SET NAME=?, EMAIL=?, BIRTH_DATE=? WHERE ID=?",
+                new Object[]{entry.getName(), entry.getEmail(), entry.getBirthDate(), entry.getId()});
+        if(entry.getPurchasedTickets() != null) {
+            for(Ticket ticket: entry.getPurchasedTickets()) {
+                int occasionId = ticket.getOccasion().getId();
+                jdbcTemplate.update("UPDATE TICKET SET USER_ID=? WHERE OCCASION_ID=? AND SEAT=?",
+                        new Object[]{entry.getId(), occasionId, ticket.getSeat()});
+            }
+        }
     }
 
     public User getById(int id) {
-        return repository.getUsers().get(id);
+        User user = null;
+        try {
+            user = jdbcTemplate.queryForObject("SELECT * FROM EM_USER WHERE ID=?", new Object[]{id}, getUserRowMapper());
+        } finally {
+            return user;
+        }
+    }
+
+    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    public void setTicketRowMapper(RowMapper<Ticket> ticketRowMapper) {
+        this.ticketRowMapper = ticketRowMapper;
+    }
+
+    private RowMapper<User> getUserRowMapper() {
+        return new RowMapper<User>() {
+            public User mapRow(ResultSet resultSet, int i) throws SQLException {
+                String name = resultSet.getString(NAME);
+                String email = resultSet.getString(EMAIL);
+                Date date = resultSet.getDate(BIRTH_DATE);
+                User user = new User(name, email, date);
+                user.setId(resultSet.getInt(ID));
+                user.setPurchasedTickets(getTicketsForUser(user.getId()));
+                return user;
+            }
+        };
+    }
+
+    private List<Ticket> getTicketsForUser(int id) {
+        return jdbcTemplate.query("SELECT * FROM TICKET WHERE USER_ID=?", new Object[]{id},
+                ticketRowMapper);
     }
 }

@@ -55,4 +55,8 @@ public class Occasion {
     public List<Ticket> getPurchasedTickets() {
         return purchasedTickets;
     }
+
+    public void setPurchasedTickets(List<Ticket> purchasedTickets) {
+        this.purchasedTickets = purchasedTickets;
+    }
 }
