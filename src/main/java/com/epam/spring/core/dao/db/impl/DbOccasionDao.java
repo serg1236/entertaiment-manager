@@ -28,12 +28,12 @@ public class DbOccasionDao implements OccasionDao {
     private JdbcTemplate jdbcTemplate;
     private EventDao eventDao;
     private AuditoriumDao auditoriumDao;
-    private RowMapper<Ticket> ticketRowMapper;
 
     private static final String EVENT_ID = "EVENT_ID";
     private static final String AUDITORIUM_ID = "AUDITORIUM_ID";
     private static final String DATE = "OCCASION_DATE";
     private static final String ID = "ID";
+    private static final String SEAT = "SEAT";
 
     public List<Occasion> read() {
         return jdbcTemplate.query("SELECT * FROM OCCASION", getOccasionRowMapper());
@@ -87,7 +87,7 @@ public class DbOccasionDao implements OccasionDao {
 
     private List<Ticket> getTicketsForOccasion(Occasion occasion) {
         return jdbcTemplate.query("SELECT * FROM TICKET WHERE OCCASION_ID=?", new Object[]{occasion.getId()},
-                ticketRowMapper);
+                getTicketRowMapper());
     }
 
     public void setEventDao(EventDao eventDao) {
@@ -98,7 +98,15 @@ public class DbOccasionDao implements OccasionDao {
         this.auditoriumDao = auditoriumDao;
     }
 
-    public void setTicketRowMapper(RowMapper<Ticket> ticketRowMapper) {
-        this.ticketRowMapper = ticketRowMapper;
+
+    private RowMapper<Ticket> getTicketRowMapper() {
+        return new RowMapper<Ticket>() {
+            public Ticket mapRow(ResultSet resultSet, int i) throws SQLException {
+                int seat = resultSet.getInt(SEAT);
+                Ticket ticket = new Ticket(null, seat);
+                ticket.setId(resultSet.getInt(ID));
+                return ticket;
+            }
+        };
     }
 }

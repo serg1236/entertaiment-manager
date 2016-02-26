@@ -38,7 +38,7 @@ public class DbEventDao implements EventDao {
     }
 
     public void delete(Event entry) {
-
+        jdbcTemplate.update("DELETE FROM EVENT WHERE ID=?", entry.getId());
     }
 
     public void update(Event entry) {

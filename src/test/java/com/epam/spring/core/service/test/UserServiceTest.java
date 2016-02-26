@@ -34,13 +34,14 @@ public class UserServiceTest {
     @Test
     public void registerUser() {
         userService.register(user);
-        assertEquals(user, userService.getUserByEmail(user.getEmail()));
+        assertEquals(user.getName(), userService.getUserByEmail(user.getEmail()).getName());
     }
 
     @Test
     public void getById() {
         userService.register(user);
-        assertEquals(user, userService.getById(user.getId()));
+        User user1 = userService.getUserByEmail(user.getEmail());
+        assertEquals(user1.getName(), userService.getById(user1.getId()).getName());
     }
 
     @Test

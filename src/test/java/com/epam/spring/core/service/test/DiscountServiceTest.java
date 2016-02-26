@@ -66,8 +66,11 @@ public class DiscountServiceTest implements ApplicationContextAware{
         
 
         Event event = context.getBean(Event.class);
+        event.setName("TEST_NAME");
+        event.setRating(EventRating.MEDIUM);
         Auditorium auditorium = auditoriumService.getAuditoriums().get(0);
-        eventService.assignAuditorium(event, auditorium, today.getTime());
+        eventService.create(event);
+        eventService.assignAuditorium(eventService.getByName("TEST_NAME"), auditorium, today.getTime());
         double discount = discountService.getDiscount(user, event, today.getTime());
         assertEquals(0.05, discount, 0.001);
     }

@@ -47,6 +47,7 @@ CREATE TABLE DISCOUNT_TO_USER (
 	ID                   integer GENERATED ALWAYS AS IDENTITY  NOT NULL,
 	USER_ID              integer   ,
 	STATISTIC_ID         integer   ,
+	USAGES               integer   ,
 	CONSTRAINT PK_DISCOUNT_TO_USER PRIMARY KEY ( ID )
  );
 

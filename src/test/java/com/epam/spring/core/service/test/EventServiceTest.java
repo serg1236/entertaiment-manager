@@ -92,7 +92,7 @@ public class EventServiceTest implements ApplicationContextAware{
         for(Event event: events) {
             eventService.create(event);
         }
-        eventService.remove(events.get(0));
+        eventService.remove(eventService.getByName("EPAM Winter party"));
         assertEquals(1, eventService.getAll().size());
     }
 }
