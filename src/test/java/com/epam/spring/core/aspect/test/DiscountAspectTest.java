@@ -1,10 +1,7 @@
 package com.epam.spring.core.aspect.test;
 
 import com.epam.spring.core.model.*;
-import com.epam.spring.core.service.AuditoriumService;
-import com.epam.spring.core.service.DiscountService;
-import com.epam.spring.core.service.DiscountStatisticService;
-import com.epam.spring.core.service.EventService;
+import com.epam.spring.core.service.*;
 import com.epam.spring.core.strategy.impl.BirthdayStrategy;
 import com.epam.spring.core.strategy.impl.TenthTicketStrategy;
 import org.junit.BeforeClass;
@@ -36,6 +33,8 @@ public class DiscountAspectTest implements ApplicationContextAware{
     private AuditoriumService auditoriumService;
     @Autowired
     private EventService eventService;
+    @Autowired
+    private UserService userService;
     @Autowired
     private DiscountStatisticService statisticService;
     private ApplicationContext context;
@@ -75,15 +74,24 @@ public class DiscountAspectTest implements ApplicationContextAware{
 
         Event event = context.getBean(Event.class);
         Event event2 = context.getBean(Event.class);
+        event.setName("TEST_EVENT");
+        event.setRating(EventRating.MEDIUM);
+        event2.setName("TEST_EVENT2");
+        event2.setRating(EventRating.MEDIUM);
         eventService.create(event);
         eventService.create(event2);
         Auditorium auditorium = auditoriumService.getAuditoriums().get(0);
         Auditorium auditorium2 = auditoriumService.getAuditoriums().get(1);
+        event = eventService.getByName(event.getName());
+        event2 = eventService.getByName(event2.getName());
+        userService.register(user);
+        userService.register(user2);
+        user = userService.getUserByEmail(user.getEmail());
+        user2 = userService.getUserByEmail(user2.getEmail());
         eventService.assignAuditorium(event, auditorium, today.getTime());
         eventService.assignAuditorium(event2, auditorium2, today.getTime());
-        double discount = discountService.getDiscount(user, event, today.getTime());
+        double discount = discountService.getDiscount(user2, event, today.getTime());
         double discount2 = discountService.getDiscount(user, event2, today.getTime());
-
         assertEquals(2, statisticService.getStatistic(BirthdayStrategy.class).getTotalUsage());
     }
 
@@ -95,13 +103,17 @@ public class DiscountAspectTest implements ApplicationContextAware{
             tickets.add(new Ticket(occasion, i));
         }
         user2.setPurchasedTickets(tickets);
-        double discount = discountService.getDiscount(user2, context.getBean(Event.class), tomorrow.getTime());
-
         Event event = context.getBean(Event.class);
+        event.setName("TEST_EVENT");
+        event.setRating(EventRating.MEDIUM);
         eventService.create(event);
         Auditorium auditorium = auditoriumService.getAuditoriums().get(0);
         eventService.assignAuditorium(event, auditorium, today.getTime());
-        double discount2 = discountService.getDiscount(user, event, today.getTime());
+        userService.register(user);
+        userService.register(user2);
+        double discount = discountService.getDiscount(user2, context.getBean(Event.class), tomorrow.getTime());
+        double discount2 = discountService.getDiscount(userService.getUserByEmail(user.getEmail()),
+                eventService.getByName("TEST_EVENT"), today.getTime());
         assertEquals(1, statisticService.getUsagesByUser(BirthdayStrategy.class, user));
         assertEquals(1, statisticService.getUsagesByUser(TenthTicketStrategy.class, user2));
     }

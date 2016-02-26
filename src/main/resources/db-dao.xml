@@ -43,8 +43,8 @@
     <bean id="occasionDao" class="com.epam.spring.core.dao.db.impl.DbOccasionDao" autowire="byType"/>
     <bean id="ticketDao" class="com.epam.spring.core.dao.db.impl.DbTicketDao" autowire="byType"/>
     <bean id="userDao" class="com.epam.spring.core.dao.db.impl.DbUserDao" autowire="byType"/>
-    <bean id="eventStatisticDao" class="com.epam.spring.core.dao.impl.HashMapEventStatisticDao" autowire="byType"/>
-    <bean id="discountStatisticDao" class="com.epam.spring.core.dao.impl.HashMapDiscountStatisticDao" autowire="byType"/>
+    <bean id="eventStatisticDao" class="com.epam.spring.core.dao.db.impl.DbEventStatisticDao" autowire="byType"/>
+    <bean id="discountStatisticDao" class="com.epam.spring.core.dao.db.impl.DbDiscountStatisticDao" autowire="byType"/>
     <bean id="ticketMapper" class="com.epam.spring.core.dao.db.mapper.TicketMapper" autowire="byType"/>
 
     <!-- jdbc:hsqldb:mem:dataSource -->

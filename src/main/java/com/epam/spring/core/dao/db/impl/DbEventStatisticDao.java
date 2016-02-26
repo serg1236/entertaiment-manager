@@ -24,7 +24,7 @@ public class DbEventStatisticDao implements EventStatisticDao {
     private static final String EVENT_ID = "EVENT_ID";
     private static final String PRICE_REQUIRED = "PRICE_REQUIRED";
     private static final String ACCESSED_BY_NAME = "ACCESSED_BY_NAME";
-    private static final String TICKETS_BOOKED = "TICKET_BOOKED";
+    private static final String TICKETS_BOOKED = "TICKETS_BOOKED";
 
 
     public List<EventStatistic> read() {
@@ -33,7 +33,7 @@ public class DbEventStatisticDao implements EventStatisticDao {
 
     public void create(EventStatistic entry) {
         int eventId = entry.getEvent().getId();
-        jdbcTemplate.update("INSERT INTO EVENT_STATISTIC(EVENT_ID, PRICE_REQUIRED, ACCESSED_BY_NAME, TICKET_BOOKED) VALUES(?,?,?,?)",
+        jdbcTemplate.update("INSERT INTO EVENT_STATISTIC(EVENT_ID, PRICE_REQUIRED, ACCESSED_BY_NAME, TICKETS_BOOKED) VALUES(?,?,?,?)",
                 eventId, entry.getPriceRequired(), entry.getAccessedByName(), entry.getTicketsBooked());
     }
 
@@ -43,7 +43,7 @@ public class DbEventStatisticDao implements EventStatisticDao {
 
     public void update(EventStatistic entry) {
         int eventId = entry.getEvent().getId();
-        jdbcTemplate.update("UPDATE EVENT_STATISTIC SET EVENT_ID=?, PRICE_REQUIRED=?, ACCESSED_BY_NAME=?, TICKET_BOOKED=? WHERE ID=?",
+        jdbcTemplate.update("UPDATE EVENT_STATISTIC SET EVENT_ID=?, PRICE_REQUIRED=?, ACCESSED_BY_NAME=?, TICKETS_BOOKED=? WHERE ID=?",
                 eventId, entry.getPriceRequired(), entry.getAccessedByName(), entry.getTicketsBooked(), entry.getId());
     }
 

@@ -83,8 +83,8 @@ public class CounterAspectTest implements ApplicationContextAware{
         birthDay1.set(Calendar.DAY_OF_MONTH, 1);
 
 
-        eventService.assignAuditorium(event1, auditorium1, today.getTime());
-        eventService.assignAuditorium(event3, auditorium2, tomorrow.getTime());
+        eventService.assignAuditorium(eventService.getByName(event1.getName()), auditorium1, today.getTime());
+        eventService.assignAuditorium(eventService.getByName(event3.getName()), auditorium2, tomorrow.getTime());
 
         userService.register(new User("Jon Snow", "wall@westeros.com", birthDay1.getTime()));
 
@@ -121,7 +121,8 @@ public class CounterAspectTest implements ApplicationContextAware{
         Event okeanConcert = eventService.getByName("Okean Elzy concert");
         Event okeanConcert2 = eventService.getByName("Okean Elzy concert");
         Event beerPong = eventService.getByName("Beer pong champ");
-        assertEquals(2, eventStatisticService.getStatistic(okeanConcert).getAccessedByName());
-        assertEquals(1, eventStatisticService.getStatistic(beerPong).getAccessedByName());
+        //first two usages are in @Before method
+        assertEquals(3, eventStatisticService.getStatistic(okeanConcert).getAccessedByName());
+        assertEquals(2, eventStatisticService.getStatistic(beerPong).getAccessedByName());
     }
 }

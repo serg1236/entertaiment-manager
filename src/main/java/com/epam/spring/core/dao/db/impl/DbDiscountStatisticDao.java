@@ -61,7 +61,10 @@ public class DbDiscountStatisticDao implements DiscountStatisticDao {
         jdbcTemplate.update("UPDATE DISCOUNT_STATISTIC SET TOTAL_USAGES=? WHERE ID=?", entry.getTotalUsage(), entry.getId());
         for(Integer key : entry.getUsagesByUser().keySet()) {
             int usages = entry.getUsagesByUser().get(key);
-            jdbcTemplate.update("UPDATE DISCOUNT_TO_USER SET USAGES=? WHERE USER_ID=?", usages, key);
+            int rowsAffected = jdbcTemplate.update("UPDATE DISCOUNT_TO_USER SET USAGES=? WHERE USER_ID=? AND STATISTIC_ID=?", usages, key, entry.getId());
+            if(rowsAffected==0) {
+                jdbcTemplate.update("INSERT INTO DISCOUNT_TO_USER(USER_ID, STATISTIC_ID, USAGES) VALUES(?,?,?)", key, entry.getId(), usages);
+            }
         }
 
     }
@@ -113,7 +116,7 @@ public class DbDiscountStatisticDao implements DiscountStatisticDao {
     }
 
     private Map<Integer, Integer> getUsagesByUser(int statisticId) {
-        return jdbcTemplate.query("SELECT * FROM DISCOUNT_TO_USER WHERE ", new Object[]{statisticId},
+        return jdbcTemplate.query("SELECT * FROM DISCOUNT_TO_USER WHERE STATISTIC_ID=?", new Object[]{statisticId},
         new ResultSetExtractor<Map<Integer,Integer>>() {
             public Map<Integer, Integer> extractData(ResultSet rs) throws SQLException {
                 Map<Integer, Integer> map = new HashMap<Integer, Integer>();
