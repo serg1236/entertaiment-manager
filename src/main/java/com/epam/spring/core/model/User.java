@@ -1,12 +1,20 @@
 package com.epam.spring.core.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.*;
 
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class User {
+    @JsonIgnore
     private int id;
     private String name;
     private String email;
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern= "dd-MM-yyyy")
     private Date birthDate;
+    @JsonIgnore
     private List<Ticket> purchasedTickets = new ArrayList<Ticket>();
 
     public String getName() {
@@ -54,4 +62,6 @@ public class User {
         this.email = email;
         this.birthDate = birthDate;
     }
+
+    public User(){};
 }

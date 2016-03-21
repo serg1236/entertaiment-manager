@@ -1,0 +1,12 @@
+[
+	{
+		"name":"Sergiy Dakhniy",
+		"email" : "Sergiy_Dakhniy@epam.com",
+		"birthDate": "26-12-1994"
+	},
+	{
+		"name":"Jon Snow",
+		"email" : "Jon_Snow@wall.com",
+		"birthDate": "1-1-1750"
+	}
+]

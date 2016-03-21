@@ -28,7 +28,7 @@ public class AuditoriumServiceImpl implements AuditoriumService {
         return auditorium!=null? auditorium.getVipSeats(): null;
     }
 
-    private Auditorium getByName(String name) {
+    public Auditorium getByName(String name) {
         List<Auditorium> auditoriums = dao.read();
         for (Auditorium auditorium: auditoriums) {
             if(auditorium.getName().equals(name)) {

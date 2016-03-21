@@ -1,6 +1,12 @@
 package com.epam.spring.core.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class Event {
+    @JsonIgnore
     private int id;
     private String name;
     private double basePrice;

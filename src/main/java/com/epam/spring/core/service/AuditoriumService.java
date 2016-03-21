@@ -11,6 +11,7 @@ import java.util.Set;
 public interface AuditoriumService {
 
     List<Auditorium> getAuditoriums();
+    Auditorium getByName(String auditoriumName);
     int getSeatsNumber(String auditoriumName);
     List<Integer> getVipSeats(String auditoriumName);
 }

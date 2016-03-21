@@ -1,0 +1,24 @@
+{
+	"events": [{
+		"name": "Okean Elzy Concert",
+		"basePrise": "200",
+		"rating": "HIGH"
+	}, {
+		"name": "Beer pong",
+		"basePrise": "50",
+		"rating": "LOW"
+	}, {
+		"name": "O.Torvald Concert",
+		"basePrise": "100",
+		"rating": "MEDIUM"
+	}],
+	"occasions": [{
+		"event": "Beer pong",
+		"auditorium": "Bowl Pub",
+		"date": "20:30 12-10-2016"
+	}, {
+		"event": "Okean Elzy Concert",
+		"auditorium": "Event Hall",
+		"date": "21:30 12-11-2016"
+	}]
+}
