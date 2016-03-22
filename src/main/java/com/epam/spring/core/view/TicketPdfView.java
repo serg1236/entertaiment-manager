@@ -30,8 +30,6 @@ public class TicketPdfView extends AbstractPdfView{
         for(Ticket ticket: tickets) {
             Table table = new Table(2);
             table.addCell("Event");
-            Occasion occasion = ticket.getOccasion();
-            Event event = occasion.getEvent();
             table.addCell(ticket.getOccasion().getEvent().getName());
             table.addCell("Place");
             table.addCell(ticket.getOccasion().getAuditorium().getName());

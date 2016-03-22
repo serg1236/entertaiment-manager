@@ -40,6 +40,8 @@
         <property name="order" value="0" />
     </bean>
 
+    <bean class="com.epam.spring.core.controller.exception.GenericExceptionResolver"/>
+
     <!--<mvc:resources mapping="/scripts/**" location="/WEB-INF/scripts/"/>-->
     <mvc:resources mapping="/styles/**" location="/WEB-INF/styles/"/>
     <mvc:annotation-driven />

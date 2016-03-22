@@ -11,13 +11,21 @@
 <body>
     <h1>Welcome to Entertainment manager (alpha)!</h1>
     <c:if test="${not empty message}">
-       <h3>${message}</h3>
+       <h3><i>${message}</i></h3>
     </c:if>
     <h2>Here you can:</h2>
     <ul>
         <li><a href="/upload">Upload users and events</a></li>
         <li><a href="/book">Book a ticket</a></li>
-        <li><a href="/tickets">View tickets</a></li>
+        <li><a href="/tickets">View tickets in PDF format</a></li>
+    </ul>
+    <h2>Please also check our info controller:</h2>
+    <ul>
+        <li><a href="/view/auditoriums">Get all auditoriums</a></li>
+        <li><a href="/view/auditoriums/Plaza">Get info about Plaza</a></li>
+        <li><a href="/view/events">Check all events</a></li>
+        <li><a href="/view/events/Okean Elzy Concert">Check Okean Elzy show</a></li>
+        <li><a href="/view/users/Jon Snow">Something about Jon Snow</a></li>
     </ul>
 </body>
 </html>

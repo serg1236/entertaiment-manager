@@ -1,6 +1,8 @@
 package com.epam.spring.core.dao.impl;
 
 import com.epam.spring.core.dao.TicketDao;
+import com.epam.spring.core.model.EventStatistic;
+import com.epam.spring.core.model.Occasion;
 import com.epam.spring.core.model.Ticket;
 import com.epam.spring.core.repository.Repository;
 
@@ -36,7 +38,19 @@ public class HashMapTicketDao implements TicketDao {
         return repository.getTickets().get(id);
     }
 
+    public List<Ticket> getByOccasion(Occasion occasion) {
+        List<Ticket> allTickets = read();
+        List<Ticket> occasionTickets = new ArrayList<>();
+        for(Ticket ticket : allTickets) {
+            if(ticket.getOccasion().getId() == occasion.getId()) {
+                occasionTickets.add(ticket);
+            }
+        }
+        return occasionTickets;
+    }
+
     public void setRepository(Repository repository) {
         this.repository = repository;
     }
+
 }

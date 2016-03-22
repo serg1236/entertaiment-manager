@@ -1,15 +1,15 @@
 {
 	"events": [{
 		"name": "Okean Elzy Concert",
-		"basePrise": "200",
+		"basePrice": "200",
 		"rating": "HIGH"
 	}, {
 		"name": "Beer pong",
-		"basePrise": "50",
+		"basePrice": "50",
 		"rating": "LOW"
 	}, {
 		"name": "O.Torvald Concert",
-		"basePrise": "100",
+		"basePrice": "100",
 		"rating": "MEDIUM"
 	}],
 	"occasions": [{

@@ -50,6 +50,10 @@ public class DbTicketDao implements TicketDao {
         }
     }
 
+    public List<Ticket> getByOccasion(Occasion occasion) {
+        return jdbcTemplate.query("SELECT * FROM TICKET WHERE OCCASION_ID=?", new Object[]{occasion.getId()}, ticketRowMapper);
+    }
+
 
     public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -58,4 +62,5 @@ public class DbTicketDao implements TicketDao {
     public void setTicketRowMapper(RowMapper<Ticket> ticketRowMapper) {
         this.ticketRowMapper = ticketRowMapper;
     }
+
 }

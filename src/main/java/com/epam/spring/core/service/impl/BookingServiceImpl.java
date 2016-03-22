@@ -89,7 +89,7 @@ public class BookingServiceImpl implements BookingService {
 
     public List<Ticket> getTicketsForEvent(Event event, Date date) {
         Occasion occasion = findOccasion(event, date);
-        return occasion!=null? occasion.getPurchasedTickets(): null;
+        return ticketDao.getByOccasion(occasion);
     }
 
 	public void setAuditoriumDao(AuditoriumDao auditoriumDao) {
