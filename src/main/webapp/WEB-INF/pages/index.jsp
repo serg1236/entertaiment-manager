@@ -13,11 +13,16 @@
     <c:if test="${not empty message}">
        <h3><i>${message}</i></h3>
     </c:if>
+    <%@include file="logout.jsp" %>
     <h2>Here you can:</h2>
     <ul>
-        <li><a href="/upload">Upload users and events</a></li>
         <li><a href="/book">Book a ticket</a></li>
-        <li><a href="/tickets">View tickets in PDF format</a></li>
+        <li><a href="/tickets/my.pdf">View your tickets in PDF format</a></li>
+        <sec:authorize access="hasRole('ROLE_BOOKING_MANAGER')">
+            <h3>As admin you also can:</h3>
+            <li><a href="/upload">Upload users and events</a></li>
+            <li><a href="/tickets">View all tickets in PDF format</a></li>
+        </sec:authorize>
     </ul>
     <h2>Please also check our info controller:</h2>
     <ul>

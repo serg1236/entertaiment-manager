@@ -11,9 +11,6 @@
 <body>
     <h1>Here you can book a ticket:</h1>
     <form action="/book/ticket" method="POST">
-        <label for="email">Email:</label>
-        <input type="email" name="email" required/>
-        <br>
         <label for="event">Event:</label>
         <input type="text" name="event" required/>
         <br>
@@ -23,6 +20,7 @@
         <label for="seat">Seat:</label>
         <input type="number" name="seat" required/>
         <br>
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
         <input type="submit" value="submit"/>
     </form>
 </body>

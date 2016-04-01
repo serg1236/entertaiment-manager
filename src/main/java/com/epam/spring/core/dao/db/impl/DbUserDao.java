@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.RowMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -23,6 +24,8 @@ public class DbUserDao implements UserDao {
     private static final String NAME = "NAME";
     private static final String EMAIL = "EMAIL";
     private static final String BIRTH_DATE = "BIRTH_DATE";
+    private static final String ROLES = "EM_ROLES";
+    private static final String PASSWORD = "EM_PASSWORD";
     private static final String ID = "ID";
 
     public List<User> read() {
@@ -30,8 +33,8 @@ public class DbUserDao implements UserDao {
     }
 
     public void create(User entry) {
-        jdbcTemplate.update("INSERT INTO EM_USER(NAME, EMAIL, BIRTH_DATE) VALUES(?,?,?)",
-                new Object[]{entry.getName(), entry.getEmail(), entry.getBirthDate()});
+        jdbcTemplate.update("INSERT INTO EM_USER(NAME, EMAIL, BIRTH_DATE, EM_ROLES, EM_PASSWORD) VALUES(?,?,?,?,?)",
+                new Object[]{entry.getName(), entry.getEmail(), entry.getBirthDate(), entry.getRoles(), entry.getPassword()});
     }
 
     public void delete(User entry) {
@@ -39,8 +42,8 @@ public class DbUserDao implements UserDao {
     }
 
     public void update(User entry) {
-        jdbcTemplate.update("UPDATE EM_USER SET NAME=?, EMAIL=?, BIRTH_DATE=? WHERE ID=?",
-                new Object[]{entry.getName(), entry.getEmail(), entry.getBirthDate(), entry.getId()});
+        jdbcTemplate.update("UPDATE EM_USER SET NAME=?, EMAIL=?, BIRTH_DATE=?, EM_ROLES=?, EM_PASSWORD=? WHERE ID=?",
+                new Object[]{entry.getName(), entry.getEmail(), entry.getBirthDate(), entry.getRoles(), entry.getPassword(), entry.getId()});
         if(entry.getPurchasedTickets() != null) {
             for(Ticket ticket: entry.getPurchasedTickets()) {
                 int occasionId = ticket.getOccasion().getId();
@@ -76,6 +79,8 @@ public class DbUserDao implements UserDao {
                 User user = new User(name, email, date);
                 user.setId(resultSet.getInt(ID));
                 user.setPurchasedTickets(getTicketsForUser(user.getId()));
+                user.setRoles(resultSet.getString(ROLES));
+                user.setPassword(resultSet.getString(PASSWORD));
                 return user;
             }
         };

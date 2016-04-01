@@ -45,4 +45,9 @@
     <import resource="db-dao.xml" />
     <import resource="aspects.xml" />
 
+    <bean id="filterMultipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="100000"/>
+        <property name="maxInMemorySize" value="50000"/>
+    </bean>
+
 </beans>

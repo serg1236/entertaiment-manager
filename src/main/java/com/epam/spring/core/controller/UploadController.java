@@ -46,7 +46,7 @@ public class UploadController {
     }
 
     @RequestMapping(value = "/users", method = RequestMethod.POST)
-    public ModelAndView uploadUsers(@RequestParam("file") MultipartFile multipart ) throws IOException {
+    public ModelAndView uploadUsers(@RequestParam(value = "file", required = false) MultipartFile multipart ) throws IOException {
         User[] users = JsonUtils.getEntitiesArray(JsonUtils.parseFile(multipart), User[].class);
         for(User user: users){
             userService.register(user);

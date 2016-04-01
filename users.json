@@ -2,11 +2,15 @@
 	{
 		"name":"Sergiy Dakhniy",
 		"email" : "Sergiy_Dakhniy@epam.com",
-		"birthDate": "26-12-1994"
+		"birthDate": "26-12-1994",
+		"roles": "ROLE_REGISTERED_USER",
+		"password": "$2a$04$XvyeKLqOUPMipFTf2gfPv./RQjrWyKRWmxPlkehwwhfKVnD8V9gxi"
 	},
 	{
 		"name":"Jon Snow",
 		"email" : "Jon_Snow@wall.com",
-		"birthDate": "1-1-1750"
+		"birthDate": "1-1-1750",
+		"roles": "ROLE_REGISTERED_USER",
+		"password": "$2a$04$XvyeKLqOUPMipFTf2gfPv./RQjrWyKRWmxPlkehwwhfKVnD8V9gxi"
 	}
 ]

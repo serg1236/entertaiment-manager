@@ -18,5 +18,9 @@ public class MainController {
         return mv;
     }
 
+    @RequestMapping("/accessDenied")
+    public String accessDenied() {
+        return "page403";
+    }
 
 }

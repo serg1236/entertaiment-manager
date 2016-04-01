@@ -11,7 +11,7 @@
 <body>
     <h1>Here you can get a ticket list!</h1>
     <h3>Search for tickets by event:</h3>
-    <form action="/tickets/byEvent" method="POST">
+    <form action="/tickets/byEvent.pdf" method="GET">
         <label for="name">Event:</label>
         <input type="text" name="name" required/>
         <br>
@@ -19,13 +19,15 @@
         <input type="text" name="date" pattern="\d\d\:\d\d\s\d\d\-\d\d\-\d\d\d\d" placeholder="hh:mm dd-MM-yyyy" required/>
         <br>
         <input type="submit" value="submit"/>
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
     </form>
     <h3>Search for tickets by user:</h3>
-    <form action="/tickets/byUser" method="POST">
+    <form action="/tickets/byUser.pdf" method="GET">
         <label for="email">Email:</label>
         <input type="email" name="email" required/>
         <br>
         <input type="submit" value="submit"/>
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
     </form>
 </body>
 </html>

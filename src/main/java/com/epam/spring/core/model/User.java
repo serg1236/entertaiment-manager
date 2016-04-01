@@ -14,6 +14,8 @@ public class User {
     private String email;
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern= "dd-MM-yyyy")
     private Date birthDate;
+    private String roles;
+    private String password;
     @JsonIgnore
     private List<Ticket> purchasedTickets = new ArrayList<Ticket>();
 
@@ -55,6 +57,22 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getRoles() {
+        return roles;
+    }
+
+    public void setRoles(String roles) {
+        this.roles = roles;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public User(String name, String email, Date birthDate) {

@@ -7,6 +7,9 @@ import com.epam.spring.core.service.EventService;
 import com.epam.spring.core.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -36,10 +39,12 @@ public class BookingController {
     }
 
     @RequestMapping(value = "/ticket", method = RequestMethod.POST)
-    ModelAndView bookTicket(@RequestParam("event") String eventName, @RequestParam("email") String email,
+    ModelAndView bookTicket(@RequestParam("event") String eventName,
                             @DateTimeFormat(pattern = "HH:mm dd-MM-yyyy") @RequestParam("date") Date date,
                             @RequestParam("seat") Integer seat) {
-        User user = userService.getUserByEmail(email);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetail = (UserDetails) auth.getPrincipal();
+        User user = userService.getUserByEmail(userDetail.getUsername());
         Event event = eventService.getByName(eventName);
         bookingService.bookTicket(user, event, date, seat);
         ModelAndView mv = new ModelAndView("index");

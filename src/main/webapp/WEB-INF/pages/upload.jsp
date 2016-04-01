@@ -11,11 +11,13 @@
     <h1>Upload users:</h1>
     <form enctype="multipart/form-data" action="/upload/users" method="POST">
         <input type="file" name="file"/>
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
         <input type="submit" value="Submit"/>
     </form>
     <h1>Upload events:</h1>
     <form enctype="multipart/form-data" action="/upload/events" method="POST">
         <input type="file" name="file"/>
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
         <input type="submit" value="Submit"/>
     </form>
 </body>
