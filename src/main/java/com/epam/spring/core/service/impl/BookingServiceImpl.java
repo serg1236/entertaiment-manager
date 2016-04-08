@@ -1,10 +1,15 @@
 package com.epam.spring.core.service.impl;
 
 import com.epam.spring.core.dao.*;
+import com.epam.spring.core.exception.BookingException;
 import com.epam.spring.core.model.*;
 import com.epam.spring.core.service.BookingService;
 import com.epam.spring.core.service.DiscountService;
+import org.springframework.dao.DataAccessException;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
@@ -69,21 +74,29 @@ public class BookingServiceImpl implements BookingService {
         return userDao.getById(user.getId()) != null;
     }
 
+    @Transactional(propagation = Propagation.REQUIRED,
+            rollbackFor = {BookingException.class, SQLException.class, DataAccessException.class})
     public void bookTicket(User user, Event event, Date date, int seat) {
         Occasion occasion = findOccasion(event, date);
         if(occasion == null) {
-            throw new RuntimeException("No event for this date found");
+            throw new BookingException("No event for this date found");
         }
         Ticket ticket = new Ticket(occasion, seat);
 
         if(!checkForAvailableSeat(ticket.getOccasion(), ticket.getSeat())){
-            throw new RuntimeException("Seat is occupied already");
+            throw new BookingException("Seat is occupied already");
+        }
+        double price  = getTicketPrice(event, date, seat, user);
+        if(user.getMoney() < price) {
+            throw new BookingException("Not enough money. Please fill your account!");
         }
         ticketDao.create(ticket);
         if(isUserRegistered(user)) {
             user.getPurchasedTickets().add(ticket);
             userDao.update(user);
         }
+        user.setMoney(user.getMoney() - price);
+        userDao.update(user);
         ticket.getOccasion().getPurchasedTickets().add(ticket);
     }
 

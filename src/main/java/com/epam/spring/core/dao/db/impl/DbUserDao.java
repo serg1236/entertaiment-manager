@@ -26,6 +26,7 @@ public class DbUserDao implements UserDao {
     private static final String BIRTH_DATE = "BIRTH_DATE";
     private static final String ROLES = "EM_ROLES";
     private static final String PASSWORD = "EM_PASSWORD";
+    private static final String MONEY = "MONEY";
     private static final String ID = "ID";
 
     public List<User> read() {
@@ -33,8 +34,8 @@ public class DbUserDao implements UserDao {
     }
 
     public void create(User entry) {
-        jdbcTemplate.update("INSERT INTO EM_USER(NAME, EMAIL, BIRTH_DATE, EM_ROLES, EM_PASSWORD) VALUES(?,?,?,?,?)",
-                new Object[]{entry.getName(), entry.getEmail(), entry.getBirthDate(), entry.getRoles(), entry.getPassword()});
+        jdbcTemplate.update("INSERT INTO EM_USER(NAME, EMAIL, BIRTH_DATE, EM_ROLES, EM_PASSWORD, MONEY) VALUES(?,?,?,?,?,?)",
+                entry.getName(), entry.getEmail(), entry.getBirthDate(), entry.getRoles(), entry.getPassword(), entry.getMoney());
     }
 
     public void delete(User entry) {
@@ -42,13 +43,13 @@ public class DbUserDao implements UserDao {
     }
 
     public void update(User entry) {
-        jdbcTemplate.update("UPDATE EM_USER SET NAME=?, EMAIL=?, BIRTH_DATE=?, EM_ROLES=?, EM_PASSWORD=? WHERE ID=?",
-                new Object[]{entry.getName(), entry.getEmail(), entry.getBirthDate(), entry.getRoles(), entry.getPassword(), entry.getId()});
+        jdbcTemplate.update("UPDATE EM_USER SET NAME=?, EMAIL=?, BIRTH_DATE=?, EM_ROLES=?, EM_PASSWORD=?, MONEY=? WHERE ID=?",
+                entry.getName(), entry.getEmail(), entry.getBirthDate(), entry.getRoles(), entry.getPassword(),  entry.getMoney(), entry.getId());
         if(entry.getPurchasedTickets() != null) {
             for(Ticket ticket: entry.getPurchasedTickets()) {
                 int occasionId = ticket.getOccasion().getId();
                 jdbcTemplate.update("UPDATE TICKET SET USER_ID=? WHERE OCCASION_ID=? AND SEAT=?",
-                        new Object[]{entry.getId(), occasionId, ticket.getSeat()});
+                        entry.getId(), occasionId, ticket.getSeat());
             }
         }
     }
@@ -81,6 +82,7 @@ public class DbUserDao implements UserDao {
                 user.setPurchasedTickets(getTicketsForUser(user.getId()));
                 user.setRoles(resultSet.getString(ROLES));
                 user.setPassword(resultSet.getString(PASSWORD));
+                user.setMoney(resultSet.getDouble(MONEY));
                 return user;
             }
         };

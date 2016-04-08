@@ -1,10 +1,16 @@
 package com.epam.spring.core.service.impl;
 
 import com.epam.spring.core.dao.UserDao;
+import com.epam.spring.core.exception.BookingException;
+import com.epam.spring.core.exception.FinanceException;
 import com.epam.spring.core.model.Ticket;
 import com.epam.spring.core.model.User;
 import com.epam.spring.core.service.UserService;
+import org.springframework.dao.DataAccessException;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,13 +56,27 @@ public class UserServiceImpl implements UserService {
         return foundUsers;
     }
 
-    //looks redundant due to purchasedTickets property inside User.class
-    //left to remain proper interface
     public List<Ticket> getBookedTickets(User user) {
         return user.getPurchasedTickets();
     }
 
-	public void setUserDao(UserDao userDao) {
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED,
+            rollbackFor = {SQLException.class, DataAccessException.class})
+    public void fillAccount(String email, double money) {
+        if(money <= 0) {
+            throw new FinanceException("Invalid sum of money");
+        }
+        User user = getUserByEmail(email);
+        if(user == null) {
+            throw new FinanceException("User not found");
+        } else {
+            user.setMoney(user.getMoney() + money);
+            userDao.update(user);
+        }
+    }
+
+    public void setUserDao(UserDao userDao) {
 		this.userDao = userDao;
 	}
     

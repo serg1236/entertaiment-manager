@@ -13,6 +13,6 @@ public interface UserService {
     User getUserByEmail(String email);
     List<User> getUsersByName(String name);
     List<Ticket> getBookedTickets(User user);
-
+    void fillAccount(String email, double money);
 
 }

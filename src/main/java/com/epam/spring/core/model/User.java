@@ -16,6 +16,7 @@ public class User {
     private Date birthDate;
     private String roles;
     private String password;
+    private double money;
     @JsonIgnore
     private List<Ticket> purchasedTickets = new ArrayList<Ticket>();
 
@@ -73,6 +74,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public double getMoney() {
+        return money;
+    }
+
+    public void setMoney(double money) {
+        this.money = money;
     }
 
     public User(String name, String email, Date birthDate) {

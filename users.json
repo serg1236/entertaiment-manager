@@ -4,13 +4,15 @@
 		"email" : "Sergiy_Dakhniy@epam.com",
 		"birthDate": "26-12-1994",
 		"roles": "ROLE_REGISTERED_USER",
-		"password": "$2a$04$XvyeKLqOUPMipFTf2gfPv./RQjrWyKRWmxPlkehwwhfKVnD8V9gxi"
+		"password": "$2a$04$XvyeKLqOUPMipFTf2gfPv./RQjrWyKRWmxPlkehwwhfKVnD8V9gxi",
+		"money": "150.0"
 	},
 	{
 		"name":"Jon Snow",
 		"email" : "Jon_Snow@wall.com",
 		"birthDate": "1-1-1750",
 		"roles": "ROLE_REGISTERED_USER",
-		"password": "$2a$04$XvyeKLqOUPMipFTf2gfPv./RQjrWyKRWmxPlkehwwhfKVnD8V9gxi"
+		"password": "$2a$04$XvyeKLqOUPMipFTf2gfPv./RQjrWyKRWmxPlkehwwhfKVnD8V9gxi",
+		"money": "200.0"
 	}
 ]

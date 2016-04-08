@@ -34,22 +34,28 @@ public class BookingController {
     private EventService eventService;
 
     @RequestMapping
-    String renderPage() {
-        return "booking";
+    ModelAndView renderPage() {
+        ModelAndView mv = new ModelAndView("booking");
+        mv.addObject("balance", getCurrentUser().getMoney());
+        return mv;
     }
 
     @RequestMapping(value = "/ticket", method = RequestMethod.POST)
     ModelAndView bookTicket(@RequestParam("event") String eventName,
                             @DateTimeFormat(pattern = "HH:mm dd-MM-yyyy") @RequestParam("date") Date date,
                             @RequestParam("seat") Integer seat) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails userDetail = (UserDetails) auth.getPrincipal();
-        User user = userService.getUserByEmail(userDetail.getUsername());
+        User user = getCurrentUser();
         Event event = eventService.getByName(eventName);
         bookingService.bookTicket(user, event, date, seat);
         ModelAndView mv = new ModelAndView("index");
         mv.addObject("message", "Ticket successfully booked!");
         return mv;
+    }
+
+    private User getCurrentUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetail = (UserDetails) auth.getPrincipal();
+        return userService.getUserByEmail(userDetail.getUsername());
     }
 
     public void setBookingService(BookingService bookingService) {

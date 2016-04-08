@@ -10,6 +10,7 @@
 </head>
 <body>
     <h1>Here you can book a ticket:</h1>
+    <h3><i>Your balance is: $${balance}</i></h3>
     <form action="/book/ticket" method="POST">
         <label for="event">Event:</label>
         <input type="text" name="event" required/>
@@ -19,6 +20,14 @@
         <br>
         <label for="seat">Seat:</label>
         <input type="number" name="seat" required/>
+        <br>
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+        <input type="submit" value="submit"/>
+    </form>
+    <h3>Not enough money? Fill your account!</h3>
+    <form action="/transactions/fill-account" method="POST">
+        <label for="sum">Sum to transfer:</label>
+        <input type="number" name="sum" required/>
         <br>
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
         <input type="submit" value="submit"/>
