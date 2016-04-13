@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema elementFormDefault="qualified" version="1.0" targetNamespace="http://www.dakhniy.com/schema" xmlns:tns="http://www.dakhniy.com/schema" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="event" type="tns:event"/>
+
+  <xs:element name="user" type="tns:user"/>
+
+  <xs:complexType name="event">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="base-price" type="xs:double"/>
+      <xs:element name="rating" type="tns:event-rating"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="user">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string" minOccurs="0"/>
+      <xs:element name="email" type="xs:string" minOccurs="0"/>
+      <xs:element name="birth-date" type="xs:dateTime" minOccurs="0"/>
+      <xs:element name="money" type="xs:double"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="event-rating">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="LOW"/>
+      <xs:enumeration value="MEDIUM"/>
+      <xs:enumeration value="HIGH"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:element name="getEventRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="name" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="getEventResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="event" type="tns:event"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="getUserRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="email" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="getUserResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="user" type="tns:user"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
+

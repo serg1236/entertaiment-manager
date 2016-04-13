@@ -18,6 +18,7 @@
 
     <http auto-config="true" use-expressions="true">
         <intercept-url pattern="/login/**" access="permitAll" />
+        <intercept-url pattern="/soap/**" access="permitAll"/>
         <intercept-url pattern="/upload/**" access="hasRole('ROLE_BOOKING_MANAGER')"/>
         <intercept-url pattern="/tickets/my*" access="hasAnyRole('ROLE_BOOKING_MANAGER','ROLE_REGISTERED_USER')"/>
         <intercept-url pattern="/tickets/**" access="hasRole('ROLE_BOOKING_MANAGER')"/>
@@ -31,7 +32,7 @@
                 password-parameter="password"
                 login-processing-url="/login_to_app"/>
         <logout logout-success-url="/login/logout" logout-url="/logout_from_app" invalidate-session="true"/>
-        <csrf/>
+        <csrf disabled="true"/>
         <remember-me
             token-validity-seconds="1209600"
             remember-me-parameter="remember-me"

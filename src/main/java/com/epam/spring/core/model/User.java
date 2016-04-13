@@ -4,18 +4,28 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.*;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
+@XmlRootElement(name="user")
+@XmlAccessorType(XmlAccessType.NONE)
 public class User {
     @JsonIgnore
     private int id;
+    @XmlElement(name = "name")
     private String name;
+    @XmlElement(name = "email")
     private String email;
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern= "dd-MM-yyyy")
+    @XmlElement(name = "birth-date")
     private Date birthDate;
     private String roles;
     private String password;
+    @XmlElement(name="money")
     private double money;
     @JsonIgnore
     private List<Ticket> purchasedTickets = new ArrayList<Ticket>();

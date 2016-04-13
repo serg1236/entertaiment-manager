@@ -4,12 +4,19 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import javax.xml.bind.annotation.*;
+
 @JsonIgnoreProperties(ignoreUnknown=true)
+@XmlRootElement(name = "event")
+@XmlAccessorType(XmlAccessType.NONE)
 public class Event {
     @JsonIgnore
     private int id;
+    @XmlElement(name="name", required = true)
     private String name;
+    @XmlElement(name="base-price", required = true)
     private double basePrice;
+    @XmlElement(name="rating", required = true)
     private EventRating rating;
 
     public String getName() {
@@ -43,4 +50,5 @@ public class Event {
     public void setId(int id) {
         this.id = id;
     }
+
 }
